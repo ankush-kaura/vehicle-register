@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vehicle Submission Form</title>
+  <style>
+    body {
+      font-family: Arial;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px 20px;
+      background: green;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .success {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+  <h2>Vehicle Submission Form</h2>
+  <form id="vehicleForm">
+    <input type="text" name="vehicleName" placeholder="Vehicle Name" required />
+    <input type="text" name="vehicleNumber" placeholder="Vehicle Number" required />
+    <input type="text" name="customerName" placeholder="Customer Name" required />
+    <input type="tel" name="customerPhone" placeholder="Customer Phone Number" required />
+    <textarea name="remarks" placeholder="Remarks"></textarea>
+    <button type="submit">Submit</button>
+    <p class="success" id="successMsg"></p>
+  </form>
+
+  <script>
+    const form = document.getElementById('vehicleForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch('YOUR_GOOGLE_SCRIPT_WEB_APP_URL', {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+        document.getElementById('successMsg').textContent = 'Form submitted successfully!';
+        form.reset();
+      } catch (error) {
+        alert('Error submitting form.');
+        console.error(error);
+      }
+    });
+  </script>
+</body>
+</html>
